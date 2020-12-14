@@ -11,24 +11,28 @@ public class NewsTest {
     }
 
     @Test
-    public void newsInstantiatesCorrestly() {
+    public void newsInstantiatesCorrectly() {
         News news = setUpNews();
         assertTrue(news instanceof News);
     }
 
     @Test
-    public void getNewsInfo() {
+    public void getNewsInfoReturnsCorrectlyNewsInfo() {
+        News news = setUpNews();
+        assertEquals("No work Tomorrow", news.getNewsInfo());
     }
 
     @Test
-    public void getId() {
+    public void setIdSetsIdCorrectlyAndReturnsCorrectId_1() {
+        News news = setUpNews();
+        news.setId(1);
+        assertEquals(1, news.getId());
     }
 
     @Test
-    public void setId() {
-    }
-
-    @Test
-    public void testEquals() {
+    public void equalsChecksIfTheNewsAreEqualCorrectly() {
+        News news = setUpNews();
+        News secondNews = new News("No work Tomorrow");
+        assertTrue(news.equals(secondNews));
     }
 }
