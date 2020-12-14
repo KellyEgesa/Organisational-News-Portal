@@ -11,4 +11,5 @@ public class DepartmentNews extends News{
     public int getDepartmentId() {
         return departmentId;
     }
+
 }
