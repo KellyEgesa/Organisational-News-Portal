@@ -3,15 +3,27 @@ package model;
 import java.util.Objects;
 
 public class Departments {
-    public String departmentName;
-    public int id;
+    private String departmentName;
+    private String departmentDescription;
+    private int departmentEmployees;
+    private int id;
 
-    public Departments(String departmentName){
+    public Departments(String departmentName, String departmentDescription) {
         this.departmentName = departmentName;
+        this.departmentDescription = departmentDescription;
+        this.departmentEmployees = 0;
     }
 
     public String getDepartmentName() {
         return departmentName;
+    }
+
+    public String getDepartmentDescription() {
+        return departmentDescription;
+    }
+
+    public int getDepartmentEmployees() {
+        return departmentEmployees;
     }
 
     public int getId() {
@@ -20,6 +32,10 @@ public class Departments {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setDepartmentEmployees() {
+        this.departmentEmployees++;
     }
 
     @Override
