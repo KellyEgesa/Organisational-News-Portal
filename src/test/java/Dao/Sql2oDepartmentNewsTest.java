@@ -59,6 +59,16 @@ public class Sql2oDepartmentNewsTest {
     }
 
     @Test
+    public void getDepartmentNewsByIdReturnsTheCorrectDepartmentNews_True() {
+        DepartmentNews departmentNews = setUpDepartmentNews();
+        DepartmentNews secondDepartmentNews  = setUpSecondDepartmentNews();
+        departmentNewsDao.saveDepartmentNews(departmentNews);
+        int id = departmentNews.getId();
+        departmentNewsDao.saveDepartmentNews(secondDepartmentNews);
+        assertTrue(departmentNews.equals(departmentNewsDao.getDepartmentNewsById(id)));
+    }
+
+    @Test
     public void clearAllDepartmentNewsRemovesAllDepartmentNews_0() {
         DepartmentNews departmentNews = setUpDepartmentNews();
         DepartmentNews secondDepartmentNews  = setUpSecondDepartmentNews();

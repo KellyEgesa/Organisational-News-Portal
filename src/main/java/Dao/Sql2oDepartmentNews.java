@@ -32,6 +32,16 @@ public class Sql2oDepartmentNews implements DepartmentNewsDao {
         }
     }
 
+    @Override
+    public DepartmentNews getDepartmentNewsById(int id) {
+        String sql = "SELECT * FROM news WHERE id = :id";
+        try (Connection con = DB.sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .throwOnMappingFailure(false)
+                    .executeAndFetchFirst(DepartmentNews.class);
+        }
+    }
 
     @Override
     public void clearAllDepartmentNews() {
