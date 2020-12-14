@@ -35,6 +35,15 @@ public class Sql2oDepartmentTest {
     }
 
     @Test
+    public void getAllDepartmentsReturnsAllDepartments() {
+        Departments departments = setUpDepartment();
+        Departments secondDepartments = setUpSecondDepartment();
+        departmentDao.saveDepartment(departments);
+        departmentDao.saveDepartment(secondDepartments);
+        assertEquals(2, departmentDao.getAllDepartments().size());
+    }
+
+    @Test
     public void saveDepartmentSetsTheCorrectId() {
         Departments departments = setUpDepartment();
         int originalId = departments.getId();
