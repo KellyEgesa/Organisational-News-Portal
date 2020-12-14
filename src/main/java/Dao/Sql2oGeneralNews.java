@@ -33,11 +33,33 @@ public class Sql2oGeneralNews implements GeneralNewsDao {
 
     @Override
     public GeneralNews getGeneralNewsById(int id) {
-        return null;
+        String sql = "SELECT * FROM news WHERE id = :id";
+        try (Connection con = DB.sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .throwOnMappingFailure(false)
+                    .executeAndFetchFirst(GeneralNews.class);
+        }
     }
 
     @Override
-    public void updateGeneralNewsById(int id) {
+    public void updateGeneralNewsById(int id, String newsInfo) {
+        String sql = "UPDATE news SET newsInfo =:newsInfo WHERE id=:id";
+        try (Connection con = DB.sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .addParameter("newsInfo", newsInfo)
+                    .executeUpdate();
+        }
+    }
 
+    @Override
+    public void clearAllGeneralNews() {
+        String sql = "DELETE FROM news WHERE type =:type";
+        try (Connection con = DB.sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("type", DATABASE_TYPE)
+                    .executeUpdate();
+        }
     }
 }

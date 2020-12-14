@@ -8,4 +8,5 @@ public interface NewsDao {
     List<News> getAllNews();
     void deleteNewsById(int id);
     void clearAllNews();
+    void updateDepartmentNewsById(int id, String newsInfo);
 }
