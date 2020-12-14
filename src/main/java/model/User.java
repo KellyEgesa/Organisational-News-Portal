@@ -1,5 +1,7 @@
 package model;
 
+import Dao.Sql2oDepartment;
+
 import java.util.Objects;
 
 public class User {
@@ -8,6 +10,8 @@ public class User {
     private int departmentId;
     private String userRole;
     private int id;
+
+    private static Sql2oDepartment departmentDao = new Sql2oDepartment();
 
     public User(String userName, String positionInCompany,String userRole, int departmentId) {
         this.userName = userName;
@@ -26,6 +30,10 @@ public class User {
 
     public int getDepartmentId() {
         return departmentId;
+    }
+
+    public Departments getDepartment(){
+        return departmentDao.findDepartmentById(departmentId);
     }
 
     public String getUserRole() {

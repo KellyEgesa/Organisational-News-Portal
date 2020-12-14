@@ -1,11 +1,15 @@
 package Dao;
 
+import model.Departments;
 import model.User;
 import org.sql2o.Connection;
 
 import java.util.List;
 
 public class Sql2oUser implements UserDao {
+
+    private static Sql2oDepartment departmentDao = new Sql2oDepartment();;
+
     @Override
     public void saveUser(User user) {
         String sql = "INSERT INTO users (userName, positionInCompany, userRole, departmentId) VALUES (:userName, :positionInCompany,:userRole ,:departmentId)";
@@ -18,6 +22,8 @@ public class Sql2oUser implements UserDao {
                     .executeUpdate()
                     .getKey();
             user.setId(id);
+            Departments departments = departmentDao.findDepartmentById(user.getDepartmentId());
+            departmentDao.addDepartmentEmployeeNumbers(departments);
         }
     }
 
