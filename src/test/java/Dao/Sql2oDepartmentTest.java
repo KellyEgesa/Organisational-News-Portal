@@ -23,8 +23,12 @@ public class Sql2oDepartmentTest {
         return new Departments("Accounting", "Assure financial records");
     }
 
+    private Departments setUpSecondDepartment(){
+        return new Departments("Human Resource", "Wellfare of the employees");
+    }
+
     @Test
-    public void saveDepartmentIdSavesTheDepartmentInDB() {
+    public void saveDepartmentSavesTheDepartmentInDB() {
         Departments departments = setUpDepartment();
         departmentDao.saveDepartment(departments);
         assertTrue(departmentDao.getAllDepartments().get(0).equals(departments));
@@ -38,4 +42,41 @@ public class Sql2oDepartmentTest {
         assertNotEquals(originalId, departments.getId());
     }
 
+    @Test
+    public void findByIdReturnsTheCorrect() {
+        Departments departments = setUpDepartment();
+        Departments secondDepartments = setUpSecondDepartment();
+        departmentDao.saveDepartment(departments);
+        int departmentId = departments.getId();
+        departmentDao.saveDepartment(secondDepartments);
+        assertEquals(departments.getId(), departmentDao.findDepartmentById(departmentId).getId());
+    }
+
+    @Test
+    public void addDepartmentEmployeeNumbersAddsTheEmployeesNumber() {
+        Departments departments = setUpDepartment();
+        departmentDao.addDepartmentEmployeeNumbers(departments);
+        assertEquals(1, departments.getDepartmentEmployees());
+    }
+
+    @Test
+    public void deleteDepartmentByIdRemovesTheDepartment_1() {
+        Departments departments = setUpDepartment();
+        Departments secondDepartments = setUpSecondDepartment();
+        departmentDao.saveDepartment(departments);
+        int departmentId = departments.getId();
+        departmentDao.saveDepartment(secondDepartments);
+        departmentDao.deleteDepartmentById(departmentId);
+        assertEquals(1, departmentDao.getAllDepartments().size());
+    }
+
+    @Test
+    public void clearAllDepartmentsRemovesAllDepartments() {
+        Departments departments = setUpDepartment();
+        Departments secondDepartments = setUpSecondDepartment();
+        departmentDao.saveDepartment(departments);
+        departmentDao.saveDepartment(secondDepartments);
+        departmentDao.clearAllDepartments();
+        assertEquals(0, departmentDao.getAllDepartments().size());
+    }
 }
