@@ -10,9 +10,10 @@ public class Sql2oGeneralNews implements GeneralNewsDao {
 
     @Override
     public List<GeneralNews> getAllGeneralNews() {
-        String sql = "SELECT * FROM news";
+        String sql = "SELECT * FROM news WHERE type = :type";
         try (Connection con = DB.sql2o.open()) {
             return con.createQuery(sql)
+                    .addParameter("type", DATABASE_TYPE)
                     .throwOnMappingFailure(false)
                     .executeAndFetch(GeneralNews.class);
         }

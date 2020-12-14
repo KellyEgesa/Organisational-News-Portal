@@ -11,6 +11,11 @@ public class Sql2oNews implements NewsDao {
     }
 
     @Override
+    public void updateDepartmentNewsById(int id, String newsInfo) {
+
+    }
+
+    @Override
     public void deleteNewsById(int id) {
 
     }
