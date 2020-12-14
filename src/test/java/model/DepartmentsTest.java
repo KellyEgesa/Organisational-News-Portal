@@ -28,4 +28,11 @@ public class DepartmentsTest {
         departments.setId(1);
         assertEquals(1, departments.getId());
     }
+
+    @Test
+    public void equalsChecksIfDepartmentsAreIdentical_True() {
+        Departments departments = setUpDepartment();
+        Departments secondDepartments = new Departments("Accounting");
+        assertTrue(departments.equals(secondDepartments));
+    }
 }
