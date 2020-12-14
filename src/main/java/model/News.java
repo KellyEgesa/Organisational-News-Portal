@@ -5,6 +5,7 @@ import java.util.Objects;
 public class News {
     private String newsInfo;
     private int id;
+    private String type;
 
     public News(String newsInfo){
         this.newsInfo = newsInfo;
@@ -16,6 +17,10 @@ public class News {
 
     public int getId() {
         return id;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setId(int id) {
