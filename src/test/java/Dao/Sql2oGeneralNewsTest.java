@@ -62,15 +62,6 @@ public class Sql2oGeneralNewsTest {
     }
 
     @Test
-    public void updateGeneralNewsByIdUpdatesTheNewsInfo_False() {
-        GeneralNews generalNews = setUpNews();
-        generalNewsDao.saveGeneralNews(generalNews);
-        int id = generalNews.getId();
-        generalNewsDao.updateGeneralNewsById(id, "Lets Work");
-        assertFalse(generalNews.equals(generalNewsDao.getGeneralNewsById(id)));
-    }
-
-    @Test
     public void clearAllGeneralNewsRemovesAllGeneralNews_0() {
         GeneralNews generalNews = setUpNews();
         GeneralNews secondGeneralNews = setSecondUpNews();
