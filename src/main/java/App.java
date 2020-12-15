@@ -71,7 +71,7 @@ public class App {
             Departments departmentsFound = departmentDao.findDepartmentById(user.getDepartmentId());
 
             if (departmentsFound == null) {
-                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", user.getDepartmentId()));
             }
 
             userDao.saveUser(user);
@@ -168,15 +168,13 @@ public class App {
             return "All general news was deleted deleted";
         });
 
-        post("/departmentNews/new/departments/:id", "application/json", (request, response) -> {
-            int departmentId = Integer.parseInt(request.params("id"));
-            Departments departmentsFound = departmentDao.findDepartmentById(departmentId);
+        post("/departmentNews/new/departments", "application/json", (request, response) -> {
+            DepartmentNews departmentNews  = gson.fromJson(request.body(), DepartmentNews.class);
+            Departments departmentsFound = departmentDao.findDepartmentById(departmentNews.getDepartmentId());
 
             if (departmentsFound == null) {
                 throw new ApiException(404, String.format("No department with the id: \"%s\" exists", request.params("id")));
             }
-
-            DepartmentNews departmentNews  = gson.fromJson(request.body(), DepartmentNews.class);
 
             departmentNewsDao.saveDepartmentNews(departmentNews);
             response.status(201);
@@ -217,12 +215,6 @@ public class App {
             response.status(200);
             return gson.toJson(departmentNewsDao.getDepartmentNewsById(departmentNewsId));
         });
-
-
-
-
-
-
 
         after(((request, response) -> {
             response.type("application/json");
