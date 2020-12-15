@@ -9,4 +9,7 @@ public interface DepartmentNewsDao {
     void saveDepartmentNews(DepartmentNews generalNews);
     DepartmentNews getDepartmentNewsById(int id);
     void clearAllDepartmentNews();
+    List<DepartmentNews> getDepartmentNewsByDepartmentId(int id);
+    void deleteDepartmentsByDepartmentId(int id);
+
 }

@@ -10,4 +10,5 @@ public interface UserDao {
     User findUserById(int id);
     void deleteUserById(int id);
     void clearUsers();
+    List<User> getUsersByDepartmentId(int id);
 }

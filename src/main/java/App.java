@@ -1,6 +1,7 @@
 import Dao.*;
 import com.google.gson.Gson;
 import exceptions.ApiException;
+import model.DepartmentNews;
 import model.Departments;
 import model.GeneralNews;
 import model.User;
@@ -96,6 +97,18 @@ public class App {
             return gson.toJson(userFound);
         });
 
+        get("/users/departments/:id", "application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            Departments departmentsFound = departmentDao.findDepartmentById(departmentId);
+
+            if (departmentsFound == null) {
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", request.params("id")));
+            }
+
+            response.status(200);
+            return gson.toJson(userDao.getUsersByDepartmentId(departmentId));
+        });
+
         delete("/user/:id", "application/json", (request, response) -> {
             int userId = Integer.parseInt(request.params("id"));
             User userFound = userDao.findUserById(userId);
@@ -154,6 +167,61 @@ public class App {
             generalNewsDao.clearAllGeneralNews();
             return "All general news was deleted deleted";
         });
+
+        post("/departmentNews/new/departments/:id", "application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            Departments departmentsFound = departmentDao.findDepartmentById(departmentId);
+
+            if (departmentsFound == null) {
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", request.params("id")));
+            }
+
+            DepartmentNews departmentNews  = gson.fromJson(request.body(), DepartmentNews.class);
+
+            departmentNewsDao.saveDepartmentNews(departmentNews);
+            response.status(201);
+            return gson.toJson(departmentNews);
+        });
+
+        get("/departmentNews/departments/:id", "application/json", (request, response) -> {
+            int departmentId = Integer.parseInt(request.params("id"));
+            Departments departmentsFound = departmentDao.findDepartmentById(departmentId);
+
+            if (departmentsFound == null) {
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", request.params("id")));
+            }
+
+            response.status(200);
+            return gson.toJson(departmentNewsDao.getDepartmentNewsByDepartmentId(departmentId));
+        });
+
+        get("/departmentNews/:id", "application/json", (request, response) -> {
+            int departmentNewsId = Integer.parseInt(request.params("id"));
+            DepartmentNews departmentNews = departmentNewsDao.getDepartmentNewsById(departmentNewsId);
+
+            if (departmentNews == null) {
+                throw new ApiException(404, String.format("No department news with the id: \"%s\" exists", request.params("id")));
+            }
+
+            response.status(200);
+            return gson.toJson(departmentNewsDao.getDepartmentNewsById(departmentNewsId));
+        });
+
+        delete("/departmentNews/:id", "application/json", (request, response) -> {
+            int departmentNewsId = Integer.parseInt(request.params("id"));
+            DepartmentNews departmentNews = departmentNewsDao.getDepartmentNewsById(departmentNewsId);
+            if (departmentNews == null) {
+                throw new ApiException(404, String.format("No department news with the id: \"%s\" exists", request.params("id")));
+            }
+            newsDao.deleteNewsById(departmentNewsId);
+            response.status(200);
+            return gson.toJson(departmentNewsDao.getDepartmentNewsById(departmentNewsId));
+        });
+
+
+
+
+
 
 
         after(((request, response) -> {
