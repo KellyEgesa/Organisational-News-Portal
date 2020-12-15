@@ -34,10 +34,11 @@ public class Sql2oDepartmentNews implements DepartmentNewsDao {
 
     @Override
     public DepartmentNews getDepartmentNewsById(int id) {
-        String sql = "SELECT * FROM news WHERE id = :id";
+        String sql = "SELECT * FROM news WHERE id = :id AND type = :type";
         try (Connection con = DB.sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("id", id)
+                    .addParameter("type", DATABASE_TYPE)
                     .throwOnMappingFailure(false)
                     .executeAndFetchFirst(DepartmentNews.class);
         }
